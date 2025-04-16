@@ -32,11 +32,11 @@ jobs:
       pull-requests: write
     needs: AutoCreatePR
     steps:
-      - name: autoapprove matthew
-        uses: hmarr/auto-approve-action@v4.0.0
-        with:
-          github-token: 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
-          pull-request-number: ${{ needs.AutoCreatePR.outputs.pr_number }}
+      #- name: autoapprove matthew
+      #  uses: hmarr/auto-approve-action@v4.0.0
+      #  with:
+      #    github-token: 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
+      #    pull-request-number: ${{ needs.AutoCreatePR.outputs.pr_number }}
       - name: autoapprove rowan
         uses: hmarr/auto-approve-action@v4.0.0
         with:
