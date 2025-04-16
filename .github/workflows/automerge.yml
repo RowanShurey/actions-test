@@ -2,8 +2,8 @@ name: test Update develop with documentation branches
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '*/5 * * * *' #'45 13 * * SUN'
+  #schedule:
+  #  - cron: '45 13 * * SUN'
 
 jobs:
   AutoCreatePR:
