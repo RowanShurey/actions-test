@@ -1,0 +1,50 @@
+name: Update develop with documentation branches
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' #'45 13 * * SUN'
+
+jobs:
+  AutoCreatePR:
+    name: Merge minutes and reports into develop weekly
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto Pull Request
+        uses: diillson/auto-pull-request@latest
+        with:
+          source_branch: 'docs/weekly-reports'                                 # If blank, default: triggered branch
+          destination_branch: 'develop'
+      - name: output-number
+        run: echo ${{steps.AutoCreatePR.outputs.pr_number}}
+  AutoApprove:
+        name: Auto Approve
+        runs-on: ubuntu-latest
+        needs: AutoCreatePR
+        steps:
+          - name: autoapprove matthew
+            uses: hmarr/auto-approve-action@v4.0.0
+            with:
+              github-token: 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
+              pull-request-number: ${{steps.AutoCreatePR.outputs.pr_number}}
+              review-message: "Auto approved automated PR for weekly reports"
+          - name: autoapprove rowan
+            uses: hmarr/auto-approve-action@v4.0.0
+            with:
+              github-token: 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
+              pull-request-number: ${{steps.AutoCreatePR.outputs.pr_number}}
+              review-message: "Auto approved automated PR for weekly reports"
+        
+  AutoMerge:
+    name: Auto merge after successful checks
+  # By default, jobs run in parallel. To run the jobs sequentially, they keywords "needs" is needed.
+  # Auto merge action can be done only when the PR is approved, hence this automerge needs autoapprove as a prerequisite
+    needs: AutoApprove
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{steps.AutoCreatePR.outputs.pr_number}}
+          method: merge # merge rebase
+          repo: juliangruber/octokit-action
