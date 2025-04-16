@@ -9,6 +9,8 @@ jobs:
   AutoCreatePR:
     name: Merge minutes and reports into develop weekly
     runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.open-pr.outputs.pr_number }}
     steps:
       - uses: actions/checkout@v3
       - name: Auto Pull Request
@@ -17,6 +19,9 @@ jobs:
         with:
           source_branch: 'docs/weekly-reports'                                 # If blank, default: triggered branch
           destination_branch: 'develop'
+          pr_title: "Pulling ${{ github.ref }} into master"
+      - name: output-url
+        run: echo ${{steps.open-pr.outputs.pr_url}}
       - name: output-number
         run: echo ${{ steps.open-pr.outputs.pr_number }}
         
