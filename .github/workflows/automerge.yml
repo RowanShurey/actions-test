@@ -42,17 +42,3 @@ jobs:
         with:
           github-token: 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
           pull-request-number: ${{ needs.AutoCreatePR.outputs.pr_number }}
-        
-  AutoMerge:
-    name: Auto merge after successful checks
-  # By default, jobs run in parallel. To run the jobs sequentially, they keywords "needs" is needed.
-  # Auto merge action can be done only when the PR is approved, hence this automerge needs autoapprove as a prerequisite
-    needs: [AutoCreatePR,AutoApprove]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Merge Pull Request
-        uses: juliangruber/merge-pull-request-action@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ needs.AutoCreatePR.outputs.pr_number }}
-          method: merge # merge rebase
