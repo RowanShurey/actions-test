@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    needs: 
+    needs: AutoCreatePR
     steps:
       - name: autoapprove matthew
         uses: hmarr/auto-approve-action@v4.0.0
