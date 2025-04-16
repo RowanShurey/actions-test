@@ -27,17 +27,15 @@ jobs:
         needs: AutoCreatePR
         steps:
           - name: autoapprove matthew
-            uses: hmarr/auto-approve-action@v4.0.0
+            uses: juliangruber/approve-pull-request-action@v2
             with:
               github-token: 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
-              pull-request-number: ${{steps.open-pr.outputs.pr_number}}
-              review-message: "Auto approved automated PR for weekly reports"
+              number: ${{steps.open-pr.outputs.pr_number}}
           - name: autoapprove rowan
-            uses: hmarr/auto-approve-action@v4.0.0
+            uses: juliangruber/approve-pull-request-action@v2
             with:
               github-token: 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
-              pull-request-number: ${{steps.open-pr.outputs.pr_number}}
-              review-message: "Auto approved automated PR for weekly reports"
+              number: ${{steps.open-pr.outputs.pr_number}}
         
   AutoMerge:
     name: Auto merge after successful checks
