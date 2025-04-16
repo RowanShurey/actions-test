@@ -1,4 +1,4 @@
-name: Update develop with documentation branches
+name: test Update develop with documentation branches
 
 on:
   workflow_dispatch:
@@ -21,6 +21,8 @@ jobs:
   AutoApprove:
         name: Auto Approve
         runs-on: ubuntu-latest
+        permissions:
+          pull-requests: write
         needs: AutoCreatePR
         steps:
           - name: autoapprove matthew
