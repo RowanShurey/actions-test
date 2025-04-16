@@ -10,6 +10,7 @@ jobs:
     name: Merge minutes and reports into develop weekly
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Auto Pull Request
         uses: diillson/auto-pull-request@latest
         with:
