@@ -1,1 +1,1 @@
-auto-merge test 2
+auto-merge test 3
