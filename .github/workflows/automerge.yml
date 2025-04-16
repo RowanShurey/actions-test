@@ -12,12 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Auto Pull Request
+        id: create_pr
         uses: diillson/auto-pull-request@latest
         with:
           source_branch: 'docs/weekly-reports'                                 # If blank, default: triggered branch
           destination_branch: 'develop'
       - name: output-number
-        run: echo ${{steps.AutoCreatePR.outputs.pr_number}}
+        run: echo ${{steps.create_pr.outputs.pull-request-number}}
   AutoApprove:
         name: Auto Approve
         runs-on: ubuntu-latest
@@ -29,13 +30,13 @@ jobs:
             uses: hmarr/auto-approve-action@v4.0.0
             with:
               github-token: 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
-              pull-request-number: ${{steps.AutoCreatePR.outputs.pr_number}}
+              pull-request-number: ${{steps.create_pr.outputs.pull-request-number}}
               review-message: "Auto approved automated PR for weekly reports"
           - name: autoapprove rowan
             uses: hmarr/auto-approve-action@v4.0.0
             with:
               github-token: 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
-              pull-request-number: ${{steps.AutoCreatePR.outputs.pr_number}}
+              pull-request-number: ${{steps.create_pr.outputs.pull-request-number}}
               review-message: "Auto approved automated PR for weekly reports"
         
   AutoMerge:
@@ -49,6 +50,6 @@ jobs:
         uses: juliangruber/merge-pull-request-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{steps.AutoCreatePR.outputs.pr_number}}
+          number: ${{steps.create_pr.outputs.pull-request-number}}
           method: merge # merge rebase
           repo: juliangruber/octokit-action
