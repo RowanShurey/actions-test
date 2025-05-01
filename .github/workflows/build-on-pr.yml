@@ -49,7 +49,7 @@ jobs:
       - name: install frontend dependencies
         run: |
          cd app/doc-anonymisation
-         pnpm install 
+         pnpm install --frozen-lockfile
 
       # comment as no tests set-up in develop yet causing this to break
       #- name: run tests
