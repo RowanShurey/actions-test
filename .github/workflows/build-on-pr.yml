@@ -51,10 +51,10 @@ jobs:
          cd app/doc-anonymisation
          pnpm install 
 
-      - name: run tests
-        run: pnpm test
+      # comment as no tests set-up in develop yet causing this to break
+      #- name: run tests
+      #  run: pnpm test
 
-      # If tagName and releaseId are omitted tauri-action will only build the app and won't try to upload any assets.
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
