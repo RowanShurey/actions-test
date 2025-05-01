@@ -1,6 +1,6 @@
 name: "test-on-pr"
 
-on: [pull_request]
+on: [pull_request,workflow_dispatch]
 
 # This workflow will build your tauri app without uploading it anywhere.
 
@@ -22,7 +22,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
-
+      - uses: pnpm/action-setup@v2
       - name: setup node
         uses: actions/setup-node@v4
         with:
@@ -42,6 +42,8 @@ jobs:
         # webkitgtk 4.0 is for Tauri v1 - webkitgtk 4.1 is for Tauri v2.
         # You can remove the one that doesn't apply to your app to speed up the workflow a bit.
 
+      - name: install pnpm
+        run: npm install -g pnpm
       - name: install frontend dependencies
         run: pnpm install 
 
