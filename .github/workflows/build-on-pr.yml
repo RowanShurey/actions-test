@@ -47,7 +47,9 @@ jobs:
       - name: install pnpm
         run: npm install -g pnpm
       - name: install frontend dependencies
-        run: pnpm install 
+        run: |
+         cd app/doc-anonymisation
+         pnpm install 
 
       - name: run tests
         run: pnpm test
