@@ -56,7 +56,7 @@ jobs:
          cd app/doc-anonymisation/src-tauri
          cargo test
       - name: run frontend tests
-       run: |
+        run: |
          cd app/doc-anonymisation/src-tauri
          cargo test --no-fail-fast --bins --locked
 
