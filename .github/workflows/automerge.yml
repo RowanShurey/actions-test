@@ -1,0 +1,56 @@
+name: test Update develop with documentation branches
+
+on:
+  workflow_dispatch:
+  #schedule:
+  #  - cron: '45 13 * * SUN'
+
+jobs:
+  AutoCreatePR:
+    name: Merge minutes and reports into develop weekly
+    runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.open-pr.outputs.pr_number }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Auto Pull Request
+        id: open-pr
+        uses: diillson/auto-pull-request@latest
+        with:
+          source_branch: 'docs/weekly-reports'                                 # If blank, default: triggered branch
+          destination_branch: 'develop'
+          pr_title: "Pulling ${{ github.ref }} into master"
+      - name: output-url
+        run: echo ${{steps.open-pr.outputs.pr_url}}
+      - name: output-number
+        run: echo ${{ steps.open-pr.outputs.pr_number }}
+        
+  AutoApprove:
+    name: Auto Approve
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    needs: AutoCreatePR
+    steps:
+      #- name: autoapprove matthew
+      #  uses: hmarr/auto-approve-action@v4.0.0
+      #  with:
+      #    github-token: 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
+      #    pull-request-number: ${{ needs.AutoCreatePR.outputs.pr_number }}
+      - name: autoapprove rowan
+        uses: hmarr/auto-approve-action@v4.0.0
+        with:
+          github-token: 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
+          pull-request-number: ${{ needs.AutoCreatePR.outputs.pr_number }}
+
+  AutoMerge:
+    name: Auto merge after successful checks
+    needs: [AutoCreatePR, AutoApprove]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ needs.AutoCreatePR.outputs.pr_number }}
+          method: merge # merge rebase

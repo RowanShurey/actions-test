@@ -1,0 +1,27 @@
+name: Update develop with documentation branches
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  update-cms-master:
+    name: Merge minutes and reports into develop weekly
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: merge
+        uses: mtanzi/action-automerge@v1
+        id: merge-reports
+        with:
+          github_token: ${{ github.token }}
+          source: 'docs/weekly-reports'
+          target: 'develop'
+      - name: merge
+        uses: mtanzi/action-automerge@v1
+        id: merge-minutes
+        with:
+          github_token: ${{ github.token }}
+          source: 'docs/meeting-minutes'
+          target: 'develop'
