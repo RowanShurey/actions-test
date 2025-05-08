@@ -12,8 +12,8 @@ jobs:
         include:
           - platform: "macos-latest" # for Arm based macs (M1 and above).
             args: "--target aarch64-apple-darwin"
-          - platform: "macos-latest" # for Intel based macs.
-            args: "--target x86_64-apple-darwin"
+          # - platform: "macos-latest" # for Intel based macs. #fails due to something with runner setup
+          #   args: "--target x86_64-apple-darwin"
           - platform: "ubuntu-22.04"
             args: ""
           - platform: "windows-latest"
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
         with:
-          version: 6.32.9
+          version: 10.10.0
       - name: setup node
         uses: actions/setup-node@v4
         with:
@@ -49,11 +49,16 @@ jobs:
       - name: install frontend dependencies
         run: |
          cd app/doc-anonymisation
-         pnpm install 
+         pnpm install --frozen-lockfile
 
-      # comment as no tests set-up in develop yet causing this to break
-      #- name: run tests
-      #  run: pnpm test
+      - name: run backend tests
+        run: |
+         cd app/doc-anonymisation/src-tauri
+         cargo test
+      - name: run frontend tests
+        run: |
+         cd app/doc-anonymisation
+         pnpm test
 
       - uses: tauri-apps/tauri-action@v0
         env:
