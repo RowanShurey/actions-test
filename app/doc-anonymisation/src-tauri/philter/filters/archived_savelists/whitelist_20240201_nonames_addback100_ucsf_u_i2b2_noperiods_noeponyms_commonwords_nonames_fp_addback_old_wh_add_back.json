@@ -1,0 +1,14 @@
+{
+    "whitelist": [
+        "apple",
+        "banana",
+        "cherry",
+        "date",
+        "elderberry"
+    ],
+    "metadata": {
+        "created_by": "GitHub Copilot",
+        "created_at": "2024-06-11",
+        "description": "Dummy whitelist for testing purposes"
+    }
+}
