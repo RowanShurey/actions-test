@@ -1,4 +1,4 @@
-name: "build-on-push"
+name: "build-on-push-develop"
 
 on: 
   push:
@@ -15,4 +15,4 @@ jobs:
     needs: test
     uses: ./.github/workflows/build-develop.yml
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ github.token }}
