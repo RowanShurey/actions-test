@@ -1,27 +1,25 @@
-name: "test-on-pr"
+name: Build & Release Tauri App-full
 
-on: [pull_request,workflow_dispatch]
-
-# This workflow will build your tauri app without uploading it anywhere.
+on:
+  workflow_call:
+    secrets:
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
-  test-tauri:
+  build-tauri:
     strategy:
-      fail-fast: false
       matrix:
-        include:
-          - platform: "macos-latest" # for Arm based macs (M1 and above).
-            args: "--target aarch64-apple-darwin"
-          # - platform: "macos-latest" # for Intel based macs. #fails due to something with runner setup
-          #   args: "--target x86_64-apple-darwin"
-          - platform: "ubuntu-22.04"
-            args: ""
-          - platform: "windows-latest"
-            args: ""
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
 
-    runs-on: ${{ matrix.platform }}
     steps:
+      - name: let git handle long paths
+        if: matrix.os == 'windows-latest' # This must match the platform value defined above.
+        run: git config --system core.longpaths true
+
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v2
         with:
           version: 10.10.0
@@ -29,15 +27,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
+          cache: 'pnpm'
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
           # Those targets are only used on macos runners so it's in an `if` to slightly speed up windows and linux builds.
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          targets: ${{ matrix.os == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
+        if: matrix.os == 'ubuntu-latest' # This must match the platform value defined above.
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
@@ -51,17 +50,15 @@ jobs:
          cd app/doc-anonymisation
          pnpm install --frozen-lockfile
 
-      - name: run backend tests
-        run: |
-         cd app/doc-anonymisation/src-tauri
-         cargo test
-      - name: run frontend tests
-        run: |
-         cd app/doc-anonymisation
-         pnpm test
 
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: ${{ matrix.args }}
+          args: ${{ matrix.os }}
+          tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
+          releaseName: 'App v__VERSION__'
+          releaseBody: 'See the assets to download this version and install.'
+          releaseDraft: false
+          prerelease: false
+          includeDebug: false
