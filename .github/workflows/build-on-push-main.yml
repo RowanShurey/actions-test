@@ -14,5 +14,3 @@ jobs:
   build:
     needs: test
     uses: ./.github/workflows/build-main.yml
-    secrets:
-      GITHUB_TOKEN: ${{ github.token }}

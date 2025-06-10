@@ -2,9 +2,6 @@ name: Build & Release Tauri App
 
 on:
   workflow_call:
-    secrets:
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   build-tauri:
@@ -53,7 +50,7 @@ jobs:
 
       - uses: tauri-apps/tauri-action@v0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           args: ${{ matrix.os }}
           tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
