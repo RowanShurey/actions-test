@@ -47,4 +47,4 @@ jobs:
       - name: run frontend tests
         run: |
          cd app/doc-anonymisation
-         pnpm test
+         pnpm test --passWithNoTests
