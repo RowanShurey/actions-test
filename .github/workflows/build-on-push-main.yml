@@ -3,7 +3,7 @@ name: "build-on-push-main"
 on: 
   push:
     branches:
-      -main
+      - 'main'
 
 # This workflow will build your tauri app without uploading it anywhere.
 
