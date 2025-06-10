@@ -1,11 +1,12 @@
-name: "test-on-pr"
+name: Test Frontend & Backend
 
-on: [pull_request,workflow_dispatch]
-
-# This workflow will build your tauri app without uploading it anywhere.
+on:
+  workflow_call:
 
 jobs:
-  test-tauri:
+  test:
+    name: Test on ${{ matrix.platform }}
+    runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
@@ -14,35 +15,31 @@ jobs:
             args: "--target aarch64-apple-darwin"
           # - platform: "macos-latest" # for Intel based macs. #fails due to something with runner setup
           #   args: "--target x86_64-apple-darwin"
-          - platform: "ubuntu-22.04"
+          - platform: "ubuntu-latest"
             args: ""
           - platform: "windows-latest"
             args: ""
 
-    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
         with:
           version: 10.10.0
-      - name: setup node
-        uses: actions/setup-node@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          # Those targets are only used on macos runners so it's in an `if` to slightly speed up windows and linux builds.
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
+        if: matrix.platform == 'ubuntu-latest' # This must match the platform value defined above.
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
-        # webkitgtk 4.0 is for Tauri v1 - webkitgtk 4.1 is for Tauri v2.
-        # You can remove the one that doesn't apply to your app to speed up the workflow a bit.
 
       - name: install pnpm
         run: npm install -g pnpm
@@ -58,10 +55,11 @@ jobs:
       - name: run frontend tests
         run: |
          cd app/doc-anonymisation
-         pnpm test
+         pnpm test --passWithNoTests
 
-      - uses: tauri-apps/tauri-action@v0
+      - name: build tauri app
+        uses: tauri-apps/tauri-action@v0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           args: ${{ matrix.args }}

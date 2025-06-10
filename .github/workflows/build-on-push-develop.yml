@@ -1,0 +1,16 @@
+name: "build-on-push-develop"
+
+on: 
+  push:
+    branches:
+      - 'develop'
+
+# This workflow will build your tauri app without uploading it anywhere.
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  build:
+    needs: test
+    uses: ./.github/workflows/build-develop.yml
