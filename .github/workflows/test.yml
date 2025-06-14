@@ -21,6 +21,10 @@ jobs:
             args: ""
 
     steps:
+      - name: let git handle long paths
+        if: matrix.os == 'windows-latest' # This must match the platform value defined above.
+        run: git config --system core.longpaths true
+
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
         with:
