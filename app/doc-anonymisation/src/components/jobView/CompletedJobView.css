@@ -1,0 +1,133 @@
+.completed-job-view-content {
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    background-color: #fffdfd; 
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+  
+  .cjw-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .cjw-job-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .cjw-status-badge {
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 0.85em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+  
+  .cjw-status-badge.completed {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green text */
+    border: 1px solid #c3e6cb;
+  }
+  
+  .cjw-completed-icon {
+    margin-left: 8px;
+    color: #155724; /* Green check */
+  }
+  
+  .cjw-close-button {
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    color: #95a5a6;
+    padding: 0 5px;
+  }
+  .cjw-close-button:hover {
+    color: #7f8c8d;
+  }
+  
+  /* This container will handle the scrolling for the file list */
+  .cjw-file-list-scroll-container {
+    margin: 15px 15px;
+    flex-grow: 1; /* Allows this area to take available vertical space */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px 25px; /* Space for scrollbar so content isn't hidden */
+    min-height: 100px; /* gives some visual space */
+    border: 1px solid #0b0b0b;  
+  }
+  
+  .cjw-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 5px; 
+    color: black;
+    font-weight: 500;
+    border-bottom: 1px dashed #282a2b; /*  separator */
+  }
+  .cjw-file-item:last-child {
+    border-bottom: none;
+  }
+  
+  .cjw-file-icon {
+    font-size: 1.6em; /* Slightly larger icon */
+    margin-right: 12px;
+    color: #7f8c8d; /* Muted icon color */
+  }
+  
+  .cjw-file-name {
+    flex-grow: 1; /* Allow name to take available space */
+    font-size: 0.9em;
+    color: #34495e; /* Darker blue-grey text */
+  }
+  
+  .cjw-view-document-button {
+    background-color: #f8f9fa; 
+    border: 1px solid #ced4da; 
+    color: #495057; 
+    padding: 6px 12px; 
+    border-radius: 15px; 
+    font-size: 0.75em; 
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+  .cjw-view-document-button:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+  }
+  
+  .cjw-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding-bottom: 10px;
+  }
+  
+  .cjw-download-all-button {
+    background-color: #fff;
+    color: #141515; 
+    border: 1px solid #ced4da;
+    padding: 12px 40px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+  .cjw-download-all-button:hover {
+    background-color: #f8f9fa;
+    border-color: #0b0b0b;
+  }

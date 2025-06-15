@@ -1,0 +1,26 @@
+.sidebar {
+    width: 310px; /* Fixed width for the sidebar */
+    background-color: #f4f4f4;
+    color: black;
+    padding: 15px;
+    padding-top: 15px;
+    border-right: 1px solid #ddd;
+    box-sizing: border-box; /* Include padding and border in the width/height */
+    display: flex;
+    flex-direction: column; /* Align content vertically */
+    align-items: flex-start; /* Align text to the left */
+    position: fixed; /* Fix the sidebar to the left edge of the page */
+    left: 0;
+    top: 0;
+    height : 100vh; /* Full height */
+}
+
+.sidebar h3 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    border-bottom: 1px dotted #ccc; /* Add a dotted line below the title */
+    padding-bottom: 10px; /* Add some spacing between the text and the line */
+    width: 100%; /* Ensure the line spans the full width */
+    text-align: left; 
+}
